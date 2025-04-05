@@ -25,17 +25,25 @@ MANPREFIX.=/usr/share/man
 MANPREFIX=$(MANPREFIX.$(PREFIX))
 
 INCLUDES != pkg-config --cflags libnotify
+INCLUDES_FULLSCREEN != pkg-config --cflags freetype2 xft x11
+INCLUDES := $(INCLUDES) $(INCLUDES_FULLSCREEN)
 CFLAGS_EXTRA = -pedantic -Wall -Wextra -Werror -Wno-unused-parameter -Os
 CFLAGS := $(CFLAGS_EXTRA) $(INCLUDES) $(CFLAGS)
 
 LIBS != pkg-config --libs libnotify
 LIBS := $(LIBS) -lm
+LIBS_FULLSCREEN != pkg-config --libs freetype2 xft x11
+LIBS := $(LIBS) $(LIBS_FULLSCREEN)
 LDFLAGS_EXTRA = -s
 LDFLAGS := $(LDFLAGS_EXTRA) $(LDFLAGS)
 
-SRC = main.c options.c battery.c notify.c
+SRC = main.c options.c battery.c notify.c fullscreen.c
 OBJ = $(SRC:.c=.o)
 HDR = $(SRC:.c=.h)
+
+#debug:
+#	$(warning LIBS is: $(LIBS))
+#	$(warning CFLAGS is: $(CFLAGS))
 
 .PHONY: all install install-service clean test compile-test
 

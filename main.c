@@ -27,6 +27,7 @@
 #include "main.h"
 #include "notify.h"
 #include "options.h"
+#include "fullscreen.h"
 
 void print_version()
 {
@@ -191,6 +192,7 @@ int main(int argc, char *argv[])
           battery.state = STATE_DANGER;
           if (config.dangercmd[0] != '\0')
             if (system(config.dangercmd) == -1) { /* Ignore command errors... */ }
+          fullscreen();
         }
 
       } else if (config.critical && battery.level <= config.critical) {
